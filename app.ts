@@ -73,17 +73,6 @@ const renderers: reder[] = [
     { person: {name: 'Jane Doe', age: 30, isStudent: false}, favoriteBook: {Title: '1984', Author: 'George Orwell', Year: 1949}},
     { person: {name: 'Sam Smith', age: 17, isStudent: true}, favoriteBook: {Title: 'The Great Gatsby', Author: 'F. Scott Fitzgerald', Year: 1}}
 ]
-const returnOldesReder = (render: reder[] | null | undefined): reder | null => {
-    if (!render) {
-        return null;
-    }
-    let oldest: reder | null = render[0];
-    for (let i = 1; i < render.length; i++) {
-        if (render[i] && render[i].person && oldest && oldest.person) {
-            if (render[i].person.age > oldest.person.age) {
-                oldest = render[i];
-            }
-        }
     }
     return oldest;
 };
@@ -92,10 +81,8 @@ console.log(returnOldesReder(renderers)); // Output: { person: { name: 'Jane Doe
 const returnOldestBook = (render: reder[]): book => {
     let oldestBook: book = render[0].favoriteBook;
     for(let i = 1; i < render.length; i++){
-        if(render[i].favoriteBook.Year > oldestBook.Year){
             oldestBook = render[i].favoriteBook;
         }
-    }
     return oldestBook;
     ;
 }
