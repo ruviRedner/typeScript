@@ -3,7 +3,6 @@ const getMaxValue = (n, b) => {
     return Math.max(n, b);
 };
 console.log(getMaxValue(5, 10)); // Output: 10
-
 const printMaxValue = (n, b) => {
     console.log(getMaxValue(n, b));
 };
@@ -71,3 +70,61 @@ const returnOldestBook = (render) => {
     ;
 };
 console.log(returnOldestBook(renderers)); // Output: { Title: '1984', Author: 'George Orwell', Year: 1949}
+const getTasks = async (url) => {
+    try {
+        const res = await fetch(url);
+        // if(res.status === 200) {
+        const data = await res.json();
+        return data;
+        // }
+        // else{
+        //     throw;
+        // }    
+    }
+    catch (err) {
+        throw new Error(err.message);
+    }
+};
+const postTask = async (url, payload) => {
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+        return result;
+    }
+    catch (err) {
+        throw new Error(err instanceof Error ? err.message : 'An unknown error occurred');
+    }
+};
+const updateTask = async (url, payload) => {
+    try {
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+        return result;
+    }
+    catch (err) {
+        throw new Error(err instanceof Error ? err.message : 'An unknown error occurred');
+    }
+};
+const deleteTask = async (url, taskId) => {
+    try {
+        await fetch(`${url} + ${taskId}`, {
+            method: 'DELETE',
+        });
+        console.log(`Task with id ${taskId} deleted successfully.`);
+    }
+    catch (err) {
+        throw new Error(err instanceof Error ? err.message : 'An unknown error occurred');
+    }
+};

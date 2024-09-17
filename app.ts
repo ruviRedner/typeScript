@@ -73,16 +73,20 @@ const renderers: reder[] = [
     { person: {name: 'Jane Doe', age: 30, isStudent: false}, favoriteBook: {Title: '1984', Author: 'George Orwell', Year: 1949}},
     { person: {name: 'Sam Smith', age: 17, isStudent: true}, favoriteBook: {Title: 'The Great Gatsby', Author: 'F. Scott Fitzgerald', Year: 1}}
 ]
-const returnOldesReder = (render: reder[]): reder => {
-    let oldest: reder = render[0];
-    for(let i = 1; i < render.length; i++){
-        if(render[i].person.age > oldest.person.age){
-            oldest = render[i];
+const returnOldesReder = (render: reder[] | null | undefined): reder | null => {
+    if (!render) {
+        return null;
+    }
+    let oldest: reder | null = render[0];
+    for (let i = 1; i < render.length; i++) {
+        if (render[i] && render[i].person && oldest && oldest.person) {
+            if (render[i].person.age > oldest.person.age) {
+                oldest = render[i];
+            }
         }
     }
     return oldest;
-    ;
-}
+};
 console.log(returnOldesReder(renderers)); // Output: { person: { name: 'Jane Doe', age: 30, isStudent: false }, favoriteBook: { Title: '1984}
 
 const returnOldestBook = (render: reder[]): book => {
@@ -98,6 +102,76 @@ const returnOldestBook = (render: reder[]): book => {
 console.log(returnOldestBook(renderers)); // Output: { Title: '1984', Author: 'George Orwell', Year: 1949}
 
 
+interface ApiResponses{
+    userId:number,
+    titles:string,
+    completed:boolean
+
+}
+
+const getTasks = async(url:string): Promise<ApiResponses[]> => {
+    try{
+        const res = await fetch(url)
+        // if(res.status === 200) {
+         const data : ApiResponses[] = await res.json()
+         return data;
+        // }
+        // else{
+        //     throw;
+
+        // }    
+    }catch(err: any){
+        throw new Error(err.message);
+    }
+    
+   
+}
+
+const postTask = async (url: string,payload:Partial<ApiResponses>) :Promise<ApiResponses> => {
+    try{
+        const response = await fetch(url,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        const result : ApiResponses = await response.json();
+        return result;
+    }catch (err:unknown) {
+        throw new Error(err instanceof Error? err.message : 'An unknown error occurred');
+    }
+   
+
+}
+
+const updateTask = async (url: string, payload: Partial<ApiResponses>) :Promise<ApiResponses> => {
+    try{
+        const response = await fetch(url,{
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        const result : ApiResponses = await response.json(); 
+        return result; 
+    }catch (err: unknown) {
+        throw new Error(err instanceof Error? err.message : 'An unknown error occurred');
+    }
+      
+}
+
+const deleteTask = async (url: string, taskId: number) :Promise<void> => {
+    try{
+        await fetch(`${url} + ${taskId}`,{
+            method: 'DELETE',
+        })
+        console.log(`Task with id ${taskId} deleted successfully.`);
+    }catch(err:unknown) {
+        throw new Error(err instanceof Error? err.message : 'An unknown error occurred');
+    }
+}
 
 
 
