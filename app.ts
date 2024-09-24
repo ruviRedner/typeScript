@@ -101,6 +101,7 @@ const getALLpasengers = async (agentid:string): Promise<void> => {
                         name: inputName.value,
                         gender: selectedGender.value
                     });
+                    window.location.reload();   
                    
                  })
              })
@@ -181,6 +182,7 @@ btnAdd.addEventListener("click", ()=>{
         flight_id: selectFl.value,
         agent: agentId
     });
+    window.location.reload();
 })
 
         

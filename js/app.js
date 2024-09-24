@@ -92,6 +92,7 @@ const getALLpasengers = (agentid) => __awaiter(void 0, void 0, void 0, function*
                         name: inputName.value,
                         gender: selectedGender.value
                     });
+                    window.location.reload();
                 });
             });
             const deleteButton = document.createElement("button");
@@ -172,6 +173,7 @@ btnAdd.addEventListener("click", () => {
         flight_id: selectFl.value,
         agent: agentId
     });
+    window.location.reload();
 });
 getAllFlights();
 // addNewPasenger({
